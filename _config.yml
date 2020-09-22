@@ -98,7 +98,18 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: hexo-theme-brewski
+theme_config:
+  copyright:
+    since: 2018
+    name: 芊野
+    url: https://blog.ierii.com
+  menu:
+    Home: /
+    Archives: /archives
+    About: /about
+    GitHub: https://github.com/kinglisky
+    Instagram: https://www.instagram.com/kinglysky
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
