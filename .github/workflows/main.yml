@@ -15,11 +15,11 @@ jobs:
       uses: actions/setup-node@v1 # 配置脚本来自 https://github.com/actions/setup-node
       with:
         node-version: '12'
+    - run: npm install
+    - run: node index.js
       env:
         OSS_REGION: ${{ secrets.OSS_REGION }}
         OSS_BUCKET: ${{ secrets.OSS_BUCKET }}
         OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
         OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-    - run: npm install
-    - run: node index.js
 
