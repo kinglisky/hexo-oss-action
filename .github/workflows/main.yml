@@ -11,12 +11,10 @@ jobs:
     - name: Checkout # 将仓库内master分支的内容下载到工作目录
       uses: actions/checkout@v2 # 脚本来自 https://github.com/actions/checkout
       
-    - name: Use Node.js 10.x # 配置Node环境
+    - name: run node # 配置Node环境
       uses: actions/setup-node@v1 # 配置脚本来自 https://github.com/actions/setup-node
       with:
         node-version: '12'
-    
-    - name: run oss sync
       env:
         OSS_REGION: ${{ secrets.OSS_REGION }}
         OSS_BUCKET: ${{ secrets.OSS_BUCKET }}
