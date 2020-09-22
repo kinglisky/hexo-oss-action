@@ -1,0 +1,30 @@
+.DS_Store
+node_modules
+/dist
+/dll
+.fun
+/*-dist
+/tests/e2e/videos/
+/tests/e2e/screenshots/
+
+# local env files
+.env.local
+.env.*.local
+/build/*.local.js
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+snapshots.js
+
+# Editor directories and files
+.idea
+.vscode
+.cache
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.dll
