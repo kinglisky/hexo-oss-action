@@ -36,13 +36,30 @@ async function upload(file, path) {
     return url;
 }
 
-(async function main() {
-    const files = await getFiles();
+async function sync(files) {
     const success = [];
+    const error = [];
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const url = await upload(`./${file}`, file.replace('public/', ''));
-        success.push(url);
+        try {
+            const url = await upload(`./${file}`, file.replace('public/', ''));
+            success.push(url);
+        } catch (e) {
+            error.push(file);
+            console.error(e);
+        }
     }
-    console.log('DONE\n', success);
+    return { success, error };
+}
+
+(async function main() {
+    const files = await getFiles();
+    let { success, error } = await sync(files);
+    if (error) {
+        const retry = await sync(error);
+        success.push(...retry.success);
+        error = retry.error;
+    }
+    console.log('SUCCESS\n', success);
+    console.log('ERROR\n', error);
 })();
