@@ -1,13 +1,14 @@
 const OSS = require('ali-oss');
 const recursive = require('recursive-readdir');
-const CDN_URL = 'https://ky-test-blog.oss-cn-beijing.aliyuncs.com';
 const PUBLISH_PATH = './public';
 
+// 从 main.yml env 中获取配置
 const {
     OSS_REGION,
     OSS_BUCKET,
     OSS_ACCESS_KEY_ID,
     OSS_ACCESS_KEY_SECRET,
+    ORIGIN,
 } = process.env;
 
 const client = new OSS({
@@ -29,37 +30,17 @@ function getFiles() {
     });
 }
 
-async function upload(file, path) {
-    const res = await client.put(path, file);
-    const url = `${CDN_URL}/${res.name}`
-    console.log(`SYNC SUCCESS: ${url}`);
-    return url;
-}
-
-async function sync(files) {
-    const success = [];
-    const error = [];
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        try {
-            const url = await upload(`./${file}`, file.replace('public/', ''));
-            success.push(url);
-        } catch (e) {
-            error.push(file);
-            console.error(e);
-        }
-    }
-    return { success, error };
+function upload(file) {
+    return client.put(file.replace('public/', ''), `./${file}`)
+        .then(res => {
+            const url = `${ORIGIN}/${res.name}`
+            console.log(`SYNC SUCCESS: ${url}`);
+            return url;
+        });
 }
 
 (async function main() {
     const files = await getFiles();
-    let { success, error } = await sync(files);
-    if (error) {
-        const retry = await sync(error);
-        success.push(...retry.success);
-        error = retry.error;
-    }
-    console.log('SUCCESS\n', success);
-    console.log('ERROR\n', error);
+    await Promise.all(files.map(file => upload(file)));
+    console.log('SYNC DONE !');
 })();

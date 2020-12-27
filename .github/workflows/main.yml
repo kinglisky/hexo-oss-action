@@ -1,17 +1,17 @@
-name: action test
+name: hexo-oss-action
 
-on: [push] # 当有新push时运行
+on: [push] # 当有新 push 时运行
 
 jobs:
-  build: # 一项叫做build的任务
+  build: # 一项叫做 build 的任务
 
-    runs-on: ubuntu-latest # 在最新版的Ubuntu系统下运行
+    runs-on: ubuntu-latest # 在最新版的 Ubuntu 系统下运行
     
     steps:
-    - name: Checkout # 将仓库内master分支的内容下载到工作目录
+    - name: Checkout # 将仓库内 master 分支的内容下载到工作目录
       uses: actions/checkout@v2 # 脚本来自 https://github.com/actions/checkout
       
-    - name: run node # 配置Node环境
+    - name: run node # 配置 Node 环境
       uses: actions/setup-node@v1 # 配置脚本来自 https://github.com/actions/setup-node
       with:
         node-version: '12'
@@ -23,4 +23,4 @@ jobs:
         OSS_BUCKET: ${{ secrets.OSS_BUCKET }}
         OSS_ACCESS_KEY_ID: ${{ secrets.OSS_ACCESS_KEY_ID }}
         OSS_ACCESS_KEY_SECRET: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-
+        ORIGIN: ${{ secrets.ORIGIN }}
